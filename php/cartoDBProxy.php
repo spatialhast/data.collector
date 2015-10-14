@@ -8,7 +8,11 @@ function goProxy($dataURL)
 	$api = '&api_key=b047b69708b0b5c661c4d0dc228dc78688055388';
 	//				 ^ENTER YOUR API KEY HERE!
 	$url = $baseURL.'q='.urlencode($dataURL).$api;
+	
+	echo "<script type='text/javascript'>alert('$url');</script>";
+	
 	$result = file_get_contents ($url);
+		
 	return $result;
 }
 ?>

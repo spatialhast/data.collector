@@ -1,66 +1,109 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Data Collector</title>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Data Collector</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="Point data collector based on CartoDB">
+	<meta name="author" content="">
 	
-	
+
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+	<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">	
 	
 	<style>
-	
-	
-	
+
+		body {
+			padding: 0;
+			margin: 0;
+		}
+
+		html,
+		body,
+		#map {
+			height: 100%;
+			width: 100%;
+		}
+
+
+
+		img {
+			float: left;
+			padding-right: 10px;
+		}
+
+		p {
+			font-size: 15px;
+			line-height: 25px;
+		}
+
+		h1 {
+			line-height: 60px;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			font-weight: lighter;
+		}
+
+		#wrapper {
+			width: 750px;
+		}
+
+		#form {
+			margin-top: 5px;
+			font-size: 12px;
+			text-align: left;
+			line-height: 16px;
+			width:375px;
+			float: left;
+		}
+
+		#header {
+			margin-top: 0px;
+			margin-bottom: 0px;
+		}
+
+		#credits p {
+			margin-top: 5px;
+			font-size: 12px;
+			text-align: right;
+			line-height: 16px;
+		}	
 	</style>
 	
-	
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-  </head>
-  <body>
-  
-  
-    <div id="wrapper">
-      <div id="header">
-        <h1>Leaflet Data Collection Tool</h1>
-      </div>
-      <div id="map"></div>
-      <div id="controls">
-        <p>Click points for more information, or add your own.</br></p>
-        <input type="button" onclick="startEdits()" value="Click to Start Editing">
-        <input type="button" onclick="stopEdits()" value="Stop Your Editing Session"><br>
-        <div id="credits"><p>#webMapWorkshop - &copy;2015, Mike Foster</p></div>
-      </div>
-    </div>
+</head>
+<body>
 
-    <div id="dialog" title="Point Information">     
-      <form>
-        <fieldset style="border: none;">
-          <ul style="list-style-type: none; padding-left: 0px">
-            <li><label for="username">Your Name</label></li>
-            <li><input type="text" name="username" id="username" placeholder="Enter your name" class="text ui-widget-content ui-corner-all"></li>
-            <li><label for="description">About this Point</label></li>
-            <li><input type="text" name="description" id="description" placeholder="Description for this point" class="text ui-widget-content ui-corner-all"></li>
-          </ul>
-          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-        </fieldset>
-      </form>
-    </div>
+	<div id="map"></div>
 
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
-    <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script>
+	<div id="dialog" title="Point Information">     
+		<form>
+			<fieldset style="border: none;">
+				<ul style="list-style-type: none; padding-left: 0px">
+					<li><label for="username">Your Name</label></li>
+					<li><input type="text" name="username" id="username" placeholder="Enter your name" class="text ui-widget-content ui-corner-all"></li>
+					<li><label for="description">About this Point</label></li>
+					<li><input type="text" name="description" id="description" placeholder="Description for this point" class="text ui-widget-content ui-corner-all"></li>
+				</ul>
+				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+			</fieldset>
+		</form>
+	</div>
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script>
     // Create Leaflet map object
     var map = L.map('map',{ center: [42.381899, -71.122499], zoom: 13});
 
     // Add Tile Layer basemap
     L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
-      attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-      subdomains: '0123',
-      minZoom: 2,
-      maxZoom: 18
+    	attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
+    	subdomains: '0123',
+    	minZoom: 2,
+    	maxZoom: 18
     }).addTo(map);
 
     // Declare Variables
@@ -79,122 +122,114 @@
 
     // Get CartoDB selection as GeoJSON and Add to Map
     function getGeoJSON(){
-      $.getJSON("https://"+cartoDBUsername+".cartodb.com/api/v2/sql?format=GeoJSON&q="+sqlQuery, function(data) {
-        cartoDBPoints = L.geoJson(data,{
-          pointToLayer: function(feature,latlng){
-            var marker = L.marker(latlng);
-            marker.bindPopup('<p>' + feature.properties.description + '<br /><em>Submitted by </em>' + feature.properties.name + '</p>');
-            return marker;
-          }
-        }).addTo(map);
-      });
+    	$.getJSON("https://"+cartoDBUsername+".cartodb.com/api/v2/sql?format=GeoJSON&q="+sqlQuery, function(data) {
+    		cartoDBPoints = L.geoJson(data,{
+    			pointToLayer: function(feature,latlng){
+    				var marker = L.marker(latlng);
+    				marker.bindPopup('<p>' + feature.properties.description + '<br /><em>Submitted by </em>' + feature.properties.name + '</p>');
+    				return marker;
+    			}
+    		}).addTo(map);
+    	});
     };
 
     // Run showAll function automatically when document loads
     $( document ).ready(function() {
-      getGeoJSON();
+    	getGeoJSON();
     });
 
     var drawControl = new L.Control.Draw({
-      draw : {
-        polygon : false,
-        polyline : false,
-        rectangle : false,
-        circle : false
-      },
-      edit : false,
-      remove: false
+    	draw : {
+    		polygon : false,
+    		polyline : false,
+    		rectangle : false,
+    		circle : false
+    	},
+    	edit : false,
+    	remove: false
     });
 
-    var controlOnMap = false;
-
-    function startEdits(){
-      if(controlOnMap == true){
-        map.removeControl(drawControl);
-        controlOnMap = false;
-      }
-      map.addControl(drawControl);
-      controlOnMap = true;
-    };
-
-    function stopEdits(){
-      map.removeControl(drawControl);
-      controlOnMap = false;
-    };
-
+    map.addControl(drawControl);
+    
     map.on('draw:created', function (e) {
-        var layer = e.layer;
+    	var layer = e.layer;
 
-        map.addLayer(drawnItems);
-        drawnItems.addLayer(layer);
+    	map.addLayer(drawnItems);
+    	drawnItems.addLayer(layer);
 
-        dialog.dialog( "open" );
+    	dialog.dialog( "open" );
     });
 
     var submitToProxy = function(q){
-      $.post("php/callProxy.php", { //Put path to your PHP file here
-        qurl:q,
-        cache: false,
-        timeStamp: new Date().getTime()
+      $.post("php/callProxy.php", { //Put path to your callProxy.php file here
+      	qurl:q,
+      	cache: false,
+      	timeStamp: new Date().getTime()
       }, function(data) {
-        console.log(data);
-        refreshLayer();
+      	console.log(data);
+      	refreshLayer();
       });
     };
 
     dialog = $( "#dialog" ).dialog({
-      autoOpen: false,
-      height: 300,
-      width: 350,
-      modal: true,
-      position: {
-        my: "center center",
-        at: "center center",
-        of: "#map"
-      },
-      buttons: {
-        "Add to Database": setData,
-        Cancel: function() {
-          dialog.dialog("close");
-          map.removeLayer(drawnItems);
-        }
-      },
-      close: function() {
-        form[ 0 ].reset();
-        console.log("Dialog closed");
-      }
+    	autoOpen: false,
+    	height: 300,
+    	width: 350,
+    	modal: true,
+    	position: {
+    		my: "center center",
+    		at: "center center",
+    		of: "#map"
+    	},
+    	buttons: {
+    		"Add to Database": setData,
+    		Cancel: function() {
+    			dialog.dialog("close");
+    			map.removeLayer(drawnItems);
+    		}
+    	},
+    	close: function() {
+    		form[ 0 ].reset();
+    		console.log("Dialog closed");
+    	}
     });
 
     form = dialog.find( "form" ).on( "submit", function( event ) {
-      event.preventDefault();
-      setData();
+    	event.preventDefault();
+    	setData();
     });
- 
+
     function setData() {
-      var enteredUsername = username.value;
-      var enteredDescription = description.value;
-      drawnItems.eachLayer(function (layer) {
-        var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
-        var a = layer.getLatLng();
-        console.log(a);
-        var sql2 ='{"type":"Point","coordinates":[' + a.lng + "," + a.lat + "]}'),4326),'" + enteredDescription + "','" + enteredUsername + "','" + a.lat + "','" + a.lng +"')";
-        var pURL = sql+sql2;
-        console.log(pURL);
-        submitToProxy(pURL);
-        console.log("Feature has been submitted to the Proxy");
-      });
-      map.removeLayer(drawnItems);
-      drawnItems = new L.FeatureGroup();
-      console.log("drawnItems has been cleared");
-      dialog.dialog("close");
+    	var enteredUsername = username.value;
+    	var enteredDescription = description.value;
+    	drawnItems.eachLayer(function (layer) {
+    		var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
+    			var a = layer.getLatLng();
+    			console.log(a);
+    			var sql2 ='{"type":"Point","coordinates":[' + a.lng + "," + a.lat + "]}'),4326),'" + enteredDescription + "','" + enteredUsername + "','" + a.lat + "','" + a.lng +"')";
+    	var pURL = sql+sql2;
+    	console.log(pURL);
+    	submitToProxy(pURL);
+    	console.log("Feature has been submitted to the Proxy");
+    });
+    	map.removeLayer(drawnItems);
+    	drawnItems = new L.FeatureGroup();
+    	console.log("drawnItems has been cleared");
+    	dialog.dialog("close");
     };
 
     function refreshLayer() {
-      if (map.hasLayer(cartoDBPoints)) {
-        map.removeLayer(cartoDBPoints);
-      };
-      getGeoJSON();
+    	if (map.hasLayer(cartoDBPoints)) {
+    		map.removeLayer(cartoDBPoints);
+    	};
+    	getGeoJSON();
     };
-    </script>
-  </body>
+  </script>
+
+  <!-- add LiveReload function -->
+  <script>
+  	document.write('<script src="http://' + (location.host || 'localhost')
+  		.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+  </script>
+</body>
 </html>

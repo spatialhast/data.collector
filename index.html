@@ -11,6 +11,9 @@
 	<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
 
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">	
+	<link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.css">	
+	<link rel="stylesheet" href="assets/easy-button/easy-button.css">	
+
 	
 	<style>
 
@@ -24,12 +27,6 @@
 		#map {
 			height: 100%;
 			width: 100%;
-		}
-
-
-		img {
-			float: left;
-			padding-right: 10px;
 		}
 
 		p {
@@ -89,13 +86,160 @@
 		</form>
 	</div>
 
+
+
+    <div id="form-modal" class="uk-modal">
+      <div class="uk-modal-dialog">
+        <a class="uk-modal-close uk-close"></a>
+        <div class="uk-modal-header">
+          <h3>Hydrant Information</h3>
+        </div>
+        <form id="hydrant-form" class="uk-form uk-form-horizontal" autocomplete="off">
+          <div id="tags">
+            <div class="uk-form-row uk-hidden">
+              <label class="uk-form-label" for="osm-id">OSM ID</label>
+              <div class="uk-form-controls">
+                <input type="text" id="osm-id" name="osm-id" class="uk-width-1-1">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="type">Type</label>
+              <div class="uk-form-controls">
+                <input type="text" autocapitalize="none" name="fire_hydrant:type" id="type" list="type-list" data-list-value-completion="true" class="uk-width-1-1">
+                  <datalist id="type-list">
+                    <option value="underground">
+                    <option value="pillar">
+                    <option value="wall">
+                    <option value="pond">
+                  </datalist>
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="position">Position</label>
+              <div class="uk-form-controls">
+                <input type="text" autocapitalize="none" name="fire_hydrant:position" id="position" list="position-list" data-list-value-completion="true" class="uk-width-1-1">
+                  <datalist id="position-list">
+                    <option value="lane">
+                    <option value="parking_lot">
+                    <option value="sidewalk">
+                    <option value="green">
+                  </datalist>
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="source">Water Source</label>
+              <div class="uk-form-controls">
+                <input type="text" autocapitalize="none" name="fire_hydrant:water_source" id="source" list="source-list" data-list-value-completion="true" class="uk-width-1-1">
+                  <datalist id="source-list">
+                    <option value="main">
+                    <option value="pond">
+                    <option value="stream">
+                  </datalist>
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="in_service">In Service</label>
+              <div class="uk-form-controls">
+                <input type="text" autocapitalize="none" name="in_service" id="in_service" list="in_service-list" data-list-value-completion="true" class="uk-width-1-1">
+                  <datalist id="in_service-list">
+                    <option value="yes">
+                    <option value="no">
+                  </datalist>
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="colour">Color</label>
+              <div class="uk-form-controls">
+                <input type="text" autocapitalize="none" autocomplete="on" name="colour" id="colour" class="uk-width-1-1" placeholder="dominant color">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="name">Name</label>
+              <div class="uk-form-controls">
+                <input type="text" name="name" id="name" class="uk-width-1-1" placeholder="hydrant name or id">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="diameter">Diameter</label>
+              <div class="uk-form-controls">
+                <input type="number" autocapitalize="none" name="fire_hydrant:diameter" id="diameter" class="uk-width-1-1" placeholder="of main feeding hydrant">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="pressure">Pressure</label>
+              <div class="uk-form-controls">
+                <input type="number" autocapitalize="none" name="fire_hydrant:pressure" id="pressure" class="uk-width-1-1" placeholder="pressure or suction for dry hydrants">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="count">Count</label>
+              <div class="uk-form-controls">
+                <input type="number" autocapitalize="none" name="fire_hydrant:count" id="count" class="uk-width-1-1" placeholder="if more than 1 hydrant">
+              </div>
+            </div>
+            <div class="uk-form-row">
+              <label class="uk-form-label" for="note">Note</label>
+              <div class="uk-form-controls">
+                <input type="text" name="note" id="note" class="uk-width-1-1" placeholder="additional information">
+              </div>
+            </div>
+            <div class="uk-form-row uk-hidden">
+              <label class="uk-form-label" for="latitude">Latitude</label>
+              <div class="uk-form-controls">
+                <input type="text" name="latitude" id="latitude" class="uk-width-1-1">
+              </div>
+            </div>
+            <div class="uk-form-row uk-hidden">
+              <label class="uk-form-label" for="longitude">Longitude</label>
+              <div class="uk-form-controls">
+                <input type="text" name="longitude" id="longitude" class="uk-width-1-1">
+              </div>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <form class="uk-form uk-form-horizontal">
+          <div class="uk-form-row">
+            <label class="uk-form-label" for="changeset-comment">OSM Changeset Comment</label>
+            <div class="uk-form-controls">
+              <textarea id="changeset-comment" autocomplete="on" rows="3" placeholder="describe your changes" class="uk-width-1-1"></textarea>
+            </div>
+          </div>
+        </form>
+        <p>
+          <div class="uk-panel uk-panel-box uk-panel-box-secondary uk-text-muted uk-text-small">The changes you upload as <span id="user"></span> will be visible on all maps that use OpenStreetMap data. OpenStreetMap® is open data, licensed under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) by the <a href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).</div>
+        </p>
+        <div class="uk-modal-footer">
+          <div class="uk-grid">
+              <div class="uk-width-1-2">
+                <button id="edit-location-btn" type="button" class="uk-button uk-button-success">Edit location</button>
+              </div>
+              <div class="uk-width-1-2 uk-text-right">
+                <button id="cancel-btn" type="button" class="uk-button">Cancel</button>
+                <button id="save-btn" type="button" class="uk-button uk-button-primary">Save</button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
 	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>	
 	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="assets/uikit-2.23.0/js/uikit.js"></script>
+	<script src="assets/easy-button/easy-button.js"></script>
 
 	<script>
+
+
+		
+
+
+
     // Create Leaflet map object
     var map = L.map('map',{ center: [42.381899, -71.122499], zoom: 13});
 
@@ -106,6 +250,16 @@
     	minZoom: 2,
     	maxZoom: 18
     }).addTo(map);
+
+
+
+L.easyButton('<img src="">', function(){
+   UIkit.modal("#form-modal").show();
+}).addTo(map);
+
+
+
+
 
     // Declare Variables
     // Create Global Variable to hold CartoDB points
@@ -228,9 +382,9 @@
   </script>
 
   <!-- add LiveReload function -->
-  <!--script>
+  <script>
   	document.write('<script src="http://' + (location.host || 'localhost')
   		.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
-  </script-->
+  </script>
 </body>
 </html>

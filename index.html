@@ -10,62 +10,19 @@
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.css" />
 	<link rel="stylesheet" href="http://leaflet.github.io/Leaflet.draw/leaflet.draw.css" />
 
-	<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">	
-	<link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.css">	
+	<!--link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"-->	
+
+
+	<!--link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.css"-->	
+  <link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.almost-flat.min.css">
+  <!--link rel="stylesheet" href="assets/uikit-2.23.0/css/components/notify.almost-flat.min.css">
+  <link rel="stylesheet" href="assets/uikit-2.23.0/css/components/search.almost-flat.min.css">
+  <link rel="stylesheet" href="assets/uikit-2.23.0/css/components/autocomplete.almost-flat.min.css"-->
+
+
 	<link rel="stylesheet" href="assets/easy-button/easy-button.css">	
 
-	
-	<style>
-
-		body {
-			padding: 0;
-			margin: 0;
-		}
-
-		html,
-		body,
-		#map {
-			height: 100%;
-			width: 100%;
-		}
-
-		p {
-			font-size: 15px;
-			line-height: 25px;
-		}
-
-		h1 {
-			line-height: 60px;
-			margin-top: 0px;
-			margin-bottom: 0px;
-			font-weight: lighter;
-		}
-
-		#wrapper {
-			width: 750px;
-		}
-
-		#form {
-			margin-top: 5px;
-			font-size: 12px;
-			text-align: left;
-			line-height: 16px;
-			width:375px;
-			float: left;
-		}
-
-		#header {
-			margin-top: 0px;
-			margin-bottom: 0px;
-		}
-
-		#credits p {
-			margin-top: 5px;
-			font-size: 12px;
-			text-align: right;
-			line-height: 16px;
-		}	
-	</style>
+	<link rel="stylesheet" href="assets/style.css">	
 	
 </head>
 <body>
@@ -92,28 +49,24 @@
       <div class="uk-modal-dialog">
         <a class="uk-modal-close uk-close"></a>
         <div class="uk-modal-header">
-          <h3>Hydrant Information</h3>
+          <h3>Information</h3>
         </div>
         <form id="hydrant-form" class="uk-form uk-form-horizontal" autocomplete="off">
           <div id="tags">
-            <div class="uk-form-row uk-hidden">
-              <label class="uk-form-label" for="osm-id">OSM ID</label>
-              <div class="uk-form-controls">
-                <input type="text" id="osm-id" name="osm-id" class="uk-width-1-1">
-              </div>
-            </div>
-            <div class="uk-form-row">
+            
+
+            <!--div class="uk-form-row">
               <label class="uk-form-label" for="type">Type</label>
               <div class="uk-form-controls">
                 <input type="text" autocapitalize="none" name="fire_hydrant:type" id="type" list="type-list" data-list-value-completion="true" class="uk-width-1-1">
                   <datalist id="type-list">
                     <option value="underground">
                     <option value="pillar">
-                    <option value="wall">
-                    <option value="pond">
                   </datalist>
               </div>
             </div>
+
+
             <div class="uk-form-row">
               <label class="uk-form-label" for="position">Position</label>
               <div class="uk-form-controls">
@@ -126,6 +79,8 @@
                   </datalist>
               </div>
             </div>
+
+
             <div class="uk-form-row">
               <label class="uk-form-label" for="source">Water Source</label>
               <div class="uk-form-controls">
@@ -137,6 +92,8 @@
                   </datalist>
               </div>
             </div>
+
+
             <div class="uk-form-row">
               <label class="uk-form-label" for="in_service">In Service</label>
               <div class="uk-form-controls">
@@ -147,19 +104,34 @@
                   </datalist>
               </div>
             </div>
+
+
             <div class="uk-form-row">
               <label class="uk-form-label" for="colour">Color</label>
               <div class="uk-form-controls">
                 <input type="text" autocapitalize="none" autocomplete="on" name="colour" id="colour" class="uk-width-1-1" placeholder="dominant color">
               </div>
-            </div>
+            </div-->
+
+
+
+
             <div class="uk-form-row">
               <label class="uk-form-label" for="name">Name</label>
               <div class="uk-form-controls">
-                <input type="text" name="name" id="name" class="uk-width-1-1" placeholder="hydrant name or id">
+                <input type="text" name="name" id="name" class="uk-width-1-1" placeholder="name">
               </div>
             </div>
+
             <div class="uk-form-row">
+              <label class="uk-form-label" for="number">Number</label>
+              <div class="uk-form-controls">
+                <input type="text" name="number" id="number" class="uk-width-1-1" placeholder="number">
+              </div>
+            </div>
+
+
+            <!--div class="uk-form-row">
               <label class="uk-form-label" for="diameter">Diameter</label>
               <div class="uk-form-controls">
                 <input type="number" autocapitalize="none" name="fire_hydrant:diameter" id="diameter" class="uk-width-1-1" placeholder="of main feeding hydrant">
@@ -182,37 +154,41 @@
               <div class="uk-form-controls">
                 <input type="text" name="note" id="note" class="uk-width-1-1" placeholder="additional information">
               </div>
-            </div>
+            </div-->
+
+
             <div class="uk-form-row uk-hidden">
               <label class="uk-form-label" for="latitude">Latitude</label>
               <div class="uk-form-controls">
                 <input type="text" name="latitude" id="latitude" class="uk-width-1-1">
               </div>
             </div>
+
             <div class="uk-form-row uk-hidden">
               <label class="uk-form-label" for="longitude">Longitude</label>
               <div class="uk-form-controls">
                 <input type="text" name="longitude" id="longitude" class="uk-width-1-1">
               </div>
             </div>
+
+
           </div>
         </form>
         <hr>
+
         <form class="uk-form uk-form-horizontal">
           <div class="uk-form-row">
-            <label class="uk-form-label" for="changeset-comment">OSM Changeset Comment</label>
+            <label class="uk-form-label" for="changeset-comment">Comment</label>
             <div class="uk-form-controls">
               <textarea id="changeset-comment" autocomplete="on" rows="3" placeholder="describe your changes" class="uk-width-1-1"></textarea>
             </div>
           </div>
         </form>
-        <p>
-          <div class="uk-panel uk-panel-box uk-panel-box-secondary uk-text-muted uk-text-small">The changes you upload as <span id="user"></span> will be visible on all maps that use OpenStreetMap data. OpenStreetMap® is open data, licensed under the <a href="http://opendatacommons.org/licenses/odbl/">Open Data Commons Open Database License</a> (ODbL) by the <a href="http://osmfoundation.org/">OpenStreetMap Foundation</a> (OSMF).</div>
-        </p>
+
         <div class="uk-modal-footer">
           <div class="uk-grid">
               <div class="uk-width-1-2">
-                <button id="edit-location-btn" type="button" class="uk-button uk-button-success">Edit location</button>
+
               </div>
               <div class="uk-width-1-2 uk-text-right">
                 <button id="cancel-btn" type="button" class="uk-button">Cancel</button>
@@ -223,163 +199,25 @@
       </div>
     </div>
 
-
-
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
 	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>	
-	<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<!--script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script-->
+
 	<script src="assets/uikit-2.23.0/js/uikit.js"></script>
+
+    <!--script src="assets/uikit-2.23.0/js/components/notify.min.js"></script>
+    <script src="assets/uikit-2.23.0/js/components/search.min.js"></script>
+    <script src="assets/uikit-2.23.0/js/components/autocomplete.min.js"></script-->
+
+
+
+
 	<script src="assets/easy-button/easy-button.js"></script>
 
-	<script>
-
-
-		
-
-
-
-    // Create Leaflet map object
-    var map = L.map('map',{ center: [42.381899, -71.122499], zoom: 13});
-
-    // Add Tile Layer basemap
-    L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
-    	attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
-    	subdomains: '0123',
-    	minZoom: 2,
-    	maxZoom: 18
-    }).addTo(map);
-
-
-
-L.easyButton('<img src="">', function(){
-   UIkit.modal("#form-modal").show();
-}).addTo(map);
-
-
-
-
-
-    // Declare Variables
-    // Create Global Variable to hold CartoDB points
-    var cartoDBPoints = null;
-
-    // Set your CartoDB Username
-    var cartoDBUsername = "hast";
-
-    // Write SQL Selection Query to be Used on CartoDB Table
-    // Name of table is 'data_collector'
-    var sqlQuery = "SELECT * FROM data_collector";
-
-    // Create variable for Leaflet.draw features
-    var drawnItems = new L.FeatureGroup();
-
-    // Get CartoDB selection as GeoJSON and Add to Map
-    function getGeoJSON(){
-    	$.getJSON("https://"+cartoDBUsername+".cartodb.com/api/v2/sql?format=GeoJSON&q="+sqlQuery, function(data) {
-    		cartoDBPoints = L.geoJson(data,{
-    			pointToLayer: function(feature,latlng){
-    				var marker = L.marker(latlng);
-    				marker.bindPopup('<p>' + feature.properties.description + '<br /><em>Submitted by </em>' + feature.properties.name + '</p>');
-    				return marker;
-    			}
-    		}).addTo(map);
-    	});
-    };
-
-    // Run showAll function automatically when document loads
-    $( document ).ready(function() {
-    	getGeoJSON();
-    });
-
-    var drawControl = new L.Control.Draw({
-    	draw : {
-    		polygon : false,
-    		polyline : false,
-    		rectangle : false,
-    		circle : false
-    	},
-    	edit : false,
-    	remove: false
-    });
-
-    map.addControl(drawControl);
-    
-    map.on('draw:created', function (e) {
-    	var layer = e.layer;
-
-    	map.addLayer(drawnItems);
-    	drawnItems.addLayer(layer);
-
-    	dialog.dialog( "open" );
-    });
-
-    var submitToProxy = function(q){
-      $.post("php/callProxy.php", { //Put path to your callProxy.php file here
-      	qurl:q,
-      	cache: false,
-      	timeStamp: new Date().getTime()
-      }, function(data) {
-      	console.log(data);
-      	refreshLayer();
-      });
-    };
-
-    dialog = $( "#dialog" ).dialog({
-    	autoOpen: false,
-    	height: 300,
-    	width: 350,
-    	modal: true,
-    	position: {
-    		my: "center center",
-    		at: "center center",
-    		of: "#map"
-    	},
-    	buttons: {
-    		"Add to Database": setData,
-    		Cancel: function() {
-    			dialog.dialog("close");
-    			map.removeLayer(drawnItems);
-    		}
-    	},
-    	close: function() {
-    		form[ 0 ].reset();
-    		console.log("Dialog closed");
-    	}
-    });
-
-    form = dialog.find( "form" ).on( "submit", function( event ) {
-    	event.preventDefault();
-    	setData();
-    });
-
-    function setData() {
-    	var enteredUsername = username.value;
-    	var enteredDescription = description.value;
-    	drawnItems.eachLayer(function (layer) {
-    		var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
-    			var a = layer.getLatLng();
-    			console.log(a);
-    			var sql2 ='{"type":"Point","coordinates":[' + a.lng + "," + a.lat + "]}'),4326),'" + enteredDescription + "','" + enteredUsername + "','" + a.lat + "','" + a.lng +"')";
-    	var pURL = sql+sql2;
-    	console.log(pURL);
-    	submitToProxy(pURL);
-    	console.log("Feature has been submitted to the Proxy");
-    });
-    	map.removeLayer(drawnItems);
-    	drawnItems = new L.FeatureGroup();
-    	console.log("drawnItems has been cleared");
-    	dialog.dialog("close");
-    };
-
-    function refreshLayer() {
-    	if (map.hasLayer(cartoDBPoints)) {
-    		map.removeLayer(cartoDBPoints);
-    	};
-    	getGeoJSON();
-    };
-  </script>
+	<script src="assets/app.js"></script>
 
   <!-- add LiveReload function -->
   <script>

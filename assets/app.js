@@ -1,19 +1,96 @@
+
+$("#cancel-btn").click(function() {
+  UIkit.modal("#form-modal").hide();
+  map.removeLayer(drawnItems);  
+/*
+  $("#hydrant-form")[0].reset();
+  $("#changeset-comment").val("");
+  map.closePopup();
+  if (newMarker) {
+    map.removeLayer(newMarker);
+  }
+  */
+});
+
+
+$("#save-btn").click(function() {
+  UIkit.modal("#form-modal").hide();
+  //event.preventDefault();
+  setData();
+});
+
+
     // Create Leaflet map object
-    var map = L.map('map',{ center: [42.381899, -71.122499], zoom: 13});
+    var map = L.map('map',{ 
+      zoomControl: false,
+      minZoom: 2,
+      maxZoom: 18,
+      center: [42.381899, -71.122499], 
+      zoom: 13
+    });
 
     // Add Tile Layer basemap
+    /*
     L.tileLayer('http://a{s}.acetate.geoiq.com/tiles/acetate-hillshading/{z}/{x}/{y}.png', {
       attribution: '&copy;2012 Esri & Stamen, Data from OSM and Natural Earth',
       subdomains: '0123',
       minZoom: 2,
       maxZoom: 18
     }).addTo(map);
+*/
+
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '&copy; Map Data <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
 
 
 
+var zoomControl = L.control.zoom({
+  position: "bottomright"
+}).addTo(map);
+
+
+
+/*
 L.easyButton('<img src="">', function(){
    UIkit.modal("#form-modal").show();
 }).addTo(map);
+
+*/
+
+var locateCtrl = L.control.locate({
+  position: "topright",
+  drawCircle: true,
+  follow: true,
+  setView: true,
+  keepCurrentZoomLevel: false,
+  markerStyle: {
+    weight: 1,
+    opacity: 0.8,
+    fillOpacity: 0.8
+  },
+  circleStyle: {
+    weight: 1,
+    clickable: false
+  },
+  icon: "uk-icon-crosshairs",
+  iconLoading: "uk-icon-spinner uk-icon-spin",
+  metric: false,
+  strings: {
+    title: "My location",
+    popup: "You are within {distance} {unit} from this point",
+    outsideMapBoundsMsg: "You seem located outside the boundaries of the map"
+  },
+  locateOptions: {
+    maxZoom: 18,
+    watch: true,
+    enableHighAccuracy: true,
+    maximumAge: 2000,
+    timeout: 2000
+  }
+}).addTo(map);
+
 
 
 
@@ -70,7 +147,10 @@ L.easyButton('<img src="">', function(){
       map.addLayer(drawnItems);
       drawnItems.addLayer(layer);
 
-      dialog.dialog( "open" );
+      //dialog.dialog( "open" );
+      UIkit.modal("#form-modal").show();
+
+
     });
 
     var submitToProxy = function(q){
@@ -84,6 +164,8 @@ L.easyButton('<img src="">', function(){
       });
     };
 
+
+/*
     dialog = $( "#dialog" ).dialog({
       autoOpen: false,
       height: 300,
@@ -106,34 +188,40 @@ L.easyButton('<img src="">', function(){
         console.log("Dialog closed");
       }
     });
+*/
 
+
+/*
     form = dialog.find( "form" ).on( "submit", function( event ) {
       event.preventDefault();
       setData();
     });
 
-    function setData() {
-      var enteredUsername = username.value;
-      var enteredDescription = description.value;
-      drawnItems.eachLayer(function (layer) {
-        var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
-          var a = layer.getLatLng();
-          console.log(a);
-          var sql2 ='{"type":"Point","coordinates":[' + a.lng + "," + a.lat + "]}'),4326),'" + enteredDescription + "','" + enteredUsername + "','" + a.lat + "','" + a.lng +"')";
-      var pURL = sql+sql2;
-      console.log(pURL);
-      submitToProxy(pURL);
-      console.log("Feature has been submitted to the Proxy");
-    });
-      map.removeLayer(drawnItems);
-      drawnItems = new L.FeatureGroup();
-      console.log("drawnItems has been cleared");
-      dialog.dialog("close");
-    };
+*/
 
-    function refreshLayer() {
-      if (map.hasLayer(cartoDBPoints)) {
-        map.removeLayer(cartoDBPoints);
-      };
-      getGeoJSON();
-    };
+
+function setData() {
+  var enteredUsername = username.value;
+  var enteredDescription = description.value;
+  drawnItems.eachLayer(function (layer) {
+    var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
+      var a = layer.getLatLng();
+      console.log(a);
+      var sql2 ='{"type":"Point","coordinates":[' + a.lng + "," + a.lat + "]}'),4326),'" + enteredDescription + "','" + enteredUsername + "','" + a.lat + "','" + a.lng +"')";
+  var pURL = sql+sql2;
+  console.log(pURL);
+  submitToProxy(pURL);
+  console.log("Feature has been submitted to the Proxy");
+});
+  map.removeLayer(drawnItems);
+  drawnItems = new L.FeatureGroup();
+  console.log("drawnItems has been cleared");
+  dialog.dialog("close");
+};
+
+function refreshLayer() {
+  if (map.hasLayer(cartoDBPoints)) {
+    map.removeLayer(cartoDBPoints);
+  };
+  getGeoJSON();
+};

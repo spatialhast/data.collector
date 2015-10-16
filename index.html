@@ -13,23 +13,32 @@
 	<!--link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"-->	
 
 
-	<!--link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.css"-->	
-  <link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.almost-flat.min.css">
+	<link rel="stylesheet" href="http://rawgithub.com/domoritz/leaflet-locatecontrol/gh-pages/dist/L.Control.Locate.min.css" />
+<!--[if lt IE 9]>
+    <link rel="stylesheet" href="//rawgithub.com/domoritz/leaflet-locatecontrol/gh-pages/dist/L.Control.Locate.ie.min.css"/>
+    <![endif]-->
+
+
+    <!--link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.css"-->	
+    <link rel="stylesheet" href="assets/uikit-2.23.0/css/uikit.almost-flat.min.css">
   <!--link rel="stylesheet" href="assets/uikit-2.23.0/css/components/notify.almost-flat.min.css">
   <link rel="stylesheet" href="assets/uikit-2.23.0/css/components/search.almost-flat.min.css">
   <link rel="stylesheet" href="assets/uikit-2.23.0/css/components/autocomplete.almost-flat.min.css"-->
 
 
-	<link rel="stylesheet" href="assets/easy-button/easy-button.css">	
+  <link rel="stylesheet" href="assets/easy-button/easy-button.css">	
 
-	<link rel="stylesheet" href="assets/style.css">	
-	
+  <link rel="stylesheet" href="assets/style.css">	
+
 </head>
 <body>
 
 	<div id="map"></div>
 
-	<div id="dialog" title="Point Information">     
+
+
+
+	<!--div id="dialog" title="Point Information">     
 		<form>
 			<fieldset style="border: none;">
 				<ul style="list-style-type: none; padding-left: 0px">
@@ -41,19 +50,19 @@
 				<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
 			</fieldset>
 		</form>
-	</div>
+	</div-->
 
 
 
-    <div id="form-modal" class="uk-modal">
-      <div class="uk-modal-dialog">
-        <a class="uk-modal-close uk-close"></a>
-        <div class="uk-modal-header">
-          <h3>Information</h3>
-        </div>
-        <form id="hydrant-form" class="uk-form uk-form-horizontal" autocomplete="off">
-          <div id="tags">
-            
+	<div id="form-modal" class="uk-modal">
+		<div class="uk-modal-dialog">
+			<a class="uk-modal-close uk-close"></a>
+			<div class="uk-modal-header">
+				<h3>Car Information</h3>
+			</div>
+			<form id="hydrant-form" class="uk-form uk-form-horizontal" autocomplete="off">
+				<div id="tags">
+
 
             <!--div class="uk-form-row">
               <label class="uk-form-label" for="type">Type</label>
@@ -117,17 +126,17 @@
 
 
             <div class="uk-form-row">
-              <label class="uk-form-label" for="name">Name</label>
-              <div class="uk-form-controls">
-                <input type="text" name="name" id="name" class="uk-width-1-1" placeholder="name">
-              </div>
+            	<label class="uk-form-label" for="name">Car Name</label>
+            	<div class="uk-form-controls">
+            		<input type="text" name="name" id="name" class="uk-width-1-1" placeholder="car name">
+            	</div>
             </div>
 
             <div class="uk-form-row">
-              <label class="uk-form-label" for="number">Number</label>
-              <div class="uk-form-controls">
-                <input type="text" name="number" id="number" class="uk-width-1-1" placeholder="number">
-              </div>
+            	<label class="uk-form-label" for="number">Car Number</label>
+            	<div class="uk-form-controls">
+            		<input type="text" name="number" id="number" class="uk-width-1-1" placeholder="car number">
+            	</div>
             </div>
 
 
@@ -158,17 +167,17 @@
 
 
             <div class="uk-form-row uk-hidden">
-              <label class="uk-form-label" for="latitude">Latitude</label>
-              <div class="uk-form-controls">
-                <input type="text" name="latitude" id="latitude" class="uk-width-1-1">
-              </div>
+            	<label class="uk-form-label" for="latitude">Latitude</label>
+            	<div class="uk-form-controls">
+            		<input type="text" name="latitude" id="latitude" class="uk-width-1-1">
+            	</div>
             </div>
 
             <div class="uk-form-row uk-hidden">
-              <label class="uk-form-label" for="longitude">Longitude</label>
-              <div class="uk-form-controls">
-                <input type="text" name="longitude" id="longitude" class="uk-width-1-1">
-              </div>
+            	<label class="uk-form-label" for="longitude">Longitude</label>
+            	<div class="uk-form-controls">
+            		<input type="text" name="longitude" id="longitude" class="uk-width-1-1">
+            	</div>
             </div>
 
 
@@ -177,36 +186,36 @@
         <hr>
 
         <form class="uk-form uk-form-horizontal">
-          <div class="uk-form-row">
-            <label class="uk-form-label" for="changeset-comment">Comment</label>
-            <div class="uk-form-controls">
-              <textarea id="changeset-comment" autocomplete="on" rows="3" placeholder="describe your changes" class="uk-width-1-1"></textarea>
-            </div>
-          </div>
+        	<div class="uk-form-row">
+        		<label class="uk-form-label" for="changeset-comment">Comment</label>
+        		<div class="uk-form-controls">
+        			<textarea id="changeset-comment" autocomplete="on" rows="3" placeholder="comment..." class="uk-width-1-1"></textarea>
+        		</div>
+        	</div>
         </form>
 
         <div class="uk-modal-footer">
-          <div class="uk-grid">
-              <div class="uk-width-1-2">
+        	<div class="uk-grid">
+        		<div class="uk-width-1-2">
 
-              </div>
-              <div class="uk-width-1-2 uk-text-right">
-                <button id="cancel-btn" type="button" class="uk-button">Cancel</button>
-                <button id="save-btn" type="button" class="uk-button uk-button-primary">Save</button>
-              </div>
-          </div>
+        		</div>
+        		<div class="uk-width-1-2 uk-text-right">
+        			<button id="cancel-btn" type="button" class="uk-button">Cancel</button>
+        			<button id="save-btn" type="button" class="uk-button uk-button-primary">Save</button>
+        		</div>
+        	</div>
         </div>
       </div>
     </div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.5/leaflet.js"></script>
 
-	<script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>	
+    <script src="http://leaflet.github.io/Leaflet.draw/leaflet.draw.js"></script>	
 
-	<!--script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script-->
-
-	<script src="assets/uikit-2.23.0/js/uikit.js"></script>
+    <!--script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script-->
+    <script src="http://rawgithub.com/domoritz/leaflet-locatecontrol/gh-pages/dist/L.Control.Locate.min.js" ></script>
+    <script src="assets/uikit-2.23.0/js/uikit.js"></script>
 
     <!--script src="assets/uikit-2.23.0/js/components/notify.min.js"></script>
     <script src="assets/uikit-2.23.0/js/components/search.min.js"></script>
@@ -215,14 +224,14 @@
 
 
 
-	<script src="assets/easy-button/easy-button.js"></script>
+    	<script src="assets/easy-button/easy-button.js"></script>
 
-	<script src="assets/app.js"></script>
+    	<script src="assets/app.js"></script>
 
-  <!-- add LiveReload function -->
-  <script>
-  	document.write('<script src="http://' + (location.host || 'localhost')
-  		.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
-  </script>
-</body>
-</html>
+    	<!-- add LiveReload function -->
+    	<script>
+    		document.write('<script src="http://' + (location.host || 'localhost')
+    			.split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+    	</script>
+    </body>
+    </html>

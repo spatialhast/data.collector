@@ -2,6 +2,8 @@
 $("#cancel-btn").click(function() {
   UIkit.modal("#form-modal").hide();
   map.removeLayer(drawnItems);  
+  refreshLayer();
+  map._onResize(); 
 /*
   $("#hydrant-form")[0].reset();
   $("#changeset-comment").val("");
@@ -13,11 +15,6 @@ $("#cancel-btn").click(function() {
 });
 
 
-$("#save-btn").click(function() {
-  UIkit.modal("#form-modal").hide();
-  //event.preventDefault();
-  setData();
-});
 
 
     // Create Leaflet map object
@@ -112,15 +109,29 @@ var locateCtrl = L.control.locate({
 
     // Get CartoDB selection as GeoJSON and Add to Map
     function getGeoJSON(){
+
       $.getJSON("https://"+cartoDBUsername+".cartodb.com/api/v2/sql?format=GeoJSON&q="+sqlQuery, function(data) {
+
+
         cartoDBPoints = L.geoJson(data,{
           pointToLayer: function(feature,latlng){
             var marker = L.marker(latlng);
             marker.bindPopup('<p>' + feature.properties.description + '<br /><em>Submitted by </em>' + feature.properties.name + '</p>');
             return marker;
           }
-        }).addTo(map);
+        });
+
+        //var markers = L.markerClusterGroup();
+        //markers.addLayer( cartoDBPoints );
+        //markers.addTo(map);
+
+
+        cartoDBPoints.addTo(map);
+
       });
+
+
+
     };
 
     // Run showAll function automatically when document loads
@@ -200,9 +211,21 @@ var locateCtrl = L.control.locate({
 */
 
 
+$("#save-btn").click(function(event) {
+
+  event.preventDefault();
+  setData();
+  UIkit.modal("#form-modal").hide();  
+});
+
+
+
+
+
 function setData() {
-  var enteredUsername = username.value;
+  var enteredUsername = name.value;
   var enteredDescription = description.value;
+
   drawnItems.eachLayer(function (layer) {
     var sql = "INSERT INTO data_collector (the_geom, description, name, latitude, longitude) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
       var a = layer.getLatLng();
@@ -216,7 +239,7 @@ function setData() {
   map.removeLayer(drawnItems);
   drawnItems = new L.FeatureGroup();
   console.log("drawnItems has been cleared");
-  dialog.dialog("close");
+  //dialog.dialog("close");
 };
 
 function refreshLayer() {
